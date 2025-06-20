@@ -11,8 +11,22 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ success: false, error: 'userId and prompt required' });
   }
   try {
-    const aiContent = await generateToolData(prompt);
-    const { title, description } = JSON.parse(aiContent);
+    let attempts = 0;
+    let title, description;
+    let aiContent = '';
+    while (attempts < 2) {
+      aiContent = await generateToolData(attempts === 0 ? prompt : `Please provide clear JSON {"title","description"} for: ${prompt}`);
+      try {
+        ({ title, description } = JSON.parse(aiContent));
+      } catch (e) {
+        attempts++;
+        continue;
+      }
+      if (title && description && description.length > 10) {
+        break;
+      }
+      attempts++;
+    }
     if (!title || !description) {
       return res.status(400).json({ success: false, error: 'Invalid AI response' });
     }

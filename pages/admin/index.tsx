@@ -10,7 +10,7 @@ interface ToolListing {
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
-export default function FreelancerDashboard() {
+export default function AdminDashboard() {
   const { data, error } = useSWR<ToolListing[]>('/api/tools', fetcher);
 
   if (error) return <div>Error loading tools.</div>;
@@ -18,7 +18,7 @@ export default function FreelancerDashboard() {
 
   return (
     <div>
-      <h1>My Tools</h1>
+      <h1>Admin Dashboard</h1>
       <ul>
         {data.map(tool => (
           <li key={tool.id}>
