@@ -1,0 +1,27 @@
+{
+  "name": "foundabrain",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "NODE_ENV=production node api/index.js",
+    "setup": "node scripts/setup.js",
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "next": "13.4.13",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "pg": "^8.11.1",
+    "pgvector": "^0.1.7",
+    "openai": "^4.21.1",
+    "prisma": "^5.9.0",
+    "@prisma/client": "^5.9.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "ts-node": "^10.9.2"
+  }
+}
