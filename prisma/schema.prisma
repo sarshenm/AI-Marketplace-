@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  listings  ToolListing[]
+  threads   MessageThread[] @relation("MessageThreads")
+}
+
+enum Role {
+  freelancer
+  customer
+  admin
+}
+
+enum ModerationStatus {
+  submitted
+  approved
+  needs_review
+  rejected
+  flagged
+}
+
+model ToolListing {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  title       String
+  description String
+  tags        String[]
+  useCase     String
+  problemSolved String
+  clientInput String
+  price       Decimal   @db.Decimal
+  createdAt   DateTime @default(now())
+  embedding   VectorEmbedding?
+  status      ModerationStatus @default(submitted)
+  adminComment String?
+  moderationComment String?
+}
+
+model VectorEmbedding {
+  id         String   @id @default(uuid())
+  content    String
+  embedding  Float[]  @db.Vector(1536)
+  tool       ToolListing @relation(fields: [toolId], references: [id])
+  toolId     String
+}
+
+model MessageThread {
+  id        String   @id @default(uuid())
+  users     User[]   @relation("MessageThreads")
+  createdAt DateTime @default(now())
+}
+
+model CMSPage {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

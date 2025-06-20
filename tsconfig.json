@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["api/*"],
+      "@lib/*": ["lib/*"],
+      "@services/*": ["services/*"]
+    }
+  },
+  "include": ["api/**/*", "lib/**/*", "services/**/*", "scripts/**/*", "components/**/*", "pages/**/*", "tests/**/*"]
+}
